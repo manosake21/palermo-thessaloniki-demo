@@ -1,11 +1,7 @@
-# Palermo
+# Παλέρμο
 
-Website for Palermo in Thessaloniki.
+Ιστοσελίδα για το Παλέρμο στη Θεσσαλονίκη.
 
-## Contact
-- Address: Filikis Etaireias 3 / Romanou 4, Thessaloniki 546 21, Greece
-- Phone: 231 027 9958
-- Email: Not publicly verified
-
-## Website
-https://palermo-thessaloniki-demo.vercel.app
+## Στοιχεία επικοινωνίας
+- Διεύθυνση: Φιλικής Εταιρείας 3 / Ρωμανού 4, Θεσσαλονίκη 546 21
+- Τηλέφωνο: 231 027 9958
