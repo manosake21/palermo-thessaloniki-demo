@@ -14,55 +14,85 @@
   --clr-light:#ffffff;
   --font-heading:"Playfair Display",serif;
   --font-body:"Roboto",sans-serif;
+  --spacing:1rem;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+*,
+*::before,
+*::after{
+  box-sizing:border-box;
+}
+html{
+  scroll-behavior:smooth;
+}
 body{
+  margin:0;
   font-family:var(--font-body);
   background:var(--clr-bg);
   color:var(--clr-text);
   line-height:1.6;
 }
-a{color:inherit;text-decoration:none;}
+a{
+  color:inherit;
+  text-decoration:none;
+}
+a:focus{
+  outline:2px solid var(--clr-accent);
+  outline-offset:2px;
+}
 header{
   position:sticky;
   top:0;
   background:var(--clr-light);
-  padding:1rem 5%;
+  padding:var(--spacing) 5%;
   display:flex;
   justify-content:space-between;
   align-items:center;
   box-shadow:0 2px 6px rgba(0,0,0,0.1);
   z-index:10;
 }
-header strong{
+header .logo{
   font-family:var(--font-heading);
   font-size:1.8rem;
   color:var(--clr-primary);
+}
+nav{
+  display:flex;
 }
 nav a{
   margin-left:1.5rem;
   font-weight:500;
 }
+nav a:hover,
+nav a:focus{
+  color:var(--clr-accent);
+}
 .hero{
   position:relative;
   min-height:70vh;
-  background:url('https://images.unsplash.com/photo-1528605248644-14dd04022da1?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
   color:var(--clr-light);
+  overflow:hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg, var(--clr-primary) 0%, #6e4c4a 100%);
+  opacity:0.85;
 }
 .hero::after{
   content:"";
   position:absolute;
   inset:0;
-  background:rgba(0,0,0,0.45);
+  background:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 fill=%22rgba(255,255,255,0.08)%22><circle cx=%2210%22 cy=%2210%22 r=%225%22/></svg>') repeat;
 }
 .hero-content{
   position:relative;
   max-width:800px;
-  padding:2rem;
+  padding:var(--spacing);
 }
 .hero h1{
   font-family:var(--font-heading);
@@ -73,7 +103,7 @@ nav a{
   font-size:1.125rem;
   margin-bottom:1.5rem;
 }
-.cta{
+.cta-primary{
   display:inline-block;
   background:var(--clr-accent);
   color:var(--clr-primary);
@@ -82,8 +112,13 @@ nav a{
   font-weight:500;
   transition:background .3s;
 }
-.cta:hover{background:#c78c33;}
-section{padding:4rem 5%;}
+.cta-primary:hover,
+.cta-primary:focus{
+  background:#c78c33;
+}
+section{
+  padding:4rem 5%;
+}
 .grid{
   display:grid;
   gap:2rem;
@@ -101,16 +136,6 @@ section{padding:4rem 5%;}
   margin-bottom:.5rem;
   color:var(--clr-primary);
 }
-footer{
-  background:var(--clr-primary);
-  color:var(--clr-light);
-  text-align:center;
-  padding:2rem 5%;
-}
-footer strong{
-  font-family:var(--font-heading);
-  font-size:1.4rem;
-}
 .visit-cta{
   background:var(--clr-accent);
   color:var(--clr-primary);
@@ -118,22 +143,34 @@ footer strong{
   max-width:900px;
   margin:2rem auto;
   padding:2rem;
+  text-align:center;
 }
 .visit-cta h2{
   font-family:var(--font-heading);
   font-size:1.75rem;
   margin-bottom:.75rem;
 }
-.visit-cta a{
+.visit-cta p{
+  margin-bottom:1rem;
+}
+.visit-cta .buttons{
+  display:flex;
+  flex-direction:column;
+  gap:.75rem;
+  align-items:center;
+}
+.visit-cta .buttons a{
   background:var(--clr-light);
   color:var(--clr-primary);
   padding:.5rem 1rem;
   border-radius:6px;
   font-weight:500;
-  display:inline-block;
-  margin-top:.5rem;
+  transition:background .2s;
 }
-.visit-cta a:hover{background:#f0e5d5;}
+.visit-cta .buttons a:hover,
+.visit-cta .buttons a:focus{
+  background:#f0e5d5;
+}
 #contact{
   max-width:800px;
   margin:0 auto;
@@ -146,14 +183,33 @@ footer strong{
 #contact p{
   margin-bottom:.5rem;
 }
+footer{
+  background:var(--clr-primary);
+  color:var(--clr-light);
+  text-align:center;
+  padding:2rem 5%;
+}
+footer .logo{
+  font-family:var(--font-heading);
+  font-size:1.4rem;
+}
 @media (prefers-reduced-motion: reduce){
-  *{transition:none!important;}
+  *, *::before, *::after{
+    transition:none !important;
+    scroll-behavior:auto !important;
+  }
+}
+@media (min-width:768px){
+  .visit-cta .buttons{
+    flex-direction:row;
+    justify-content:center;
+  }
 }
 </style>
 </head>
 <body>
 <header role="banner">
-  <strong>PALERMO</strong>
+  <div class="logo">PALERMO</div>
   <nav aria-label="Κύρια πλοήγηση">
     <a href="#about">About</a>
     <a href="#visit">Visit</a>
@@ -161,55 +217,58 @@ footer strong{
   </nav>
 </header>
 
-<section class="hero" aria-label="Κεντρική προσφορά">
-  <div class="hero-content">
-    <h1>Coffee, drinks & good company.</h1>
-    <p>A refined digital home for Palermo in the heart of Thessaloniki — with the atmosphere, location and contact details guests need at a glance.</p>
-    <a class="cta" href="tel:+302310279958">Call 2310 279 958</a>
-  </div>
-</section>
+<main>
+  <section class="hero" aria-label="Κεντρική προσφορά">
+    <div class="hero-content">
+      <h1>Coffee, drinks &amp; good company.</h1>
+      <p>Ένα εκλεπτυσμένο ψηφιακό σπίτι για το Palermo στην καρδιά της Θεσσαλονίκης — με ατμόσφαιρα, τοποθεσία και στοιχεία επικοινωνίας σε μια ματιά.</p>
+      <a class="cta-primary" href="tel:+302310279958">Καλέστε 2310 279 958</a>
+    </div>
+  </section>
 
-<section id="about" class="grid">
-  <div class="card">
-    <h2>Τοποθεσία</h2>
-    <p>Filikis Etaireias 3 / Romanou 4, Thessaloniki 546 21</p>
-  </div>
-  <div class="card">
-    <h2>Το μέρος</h2>
-    <p>Μοντέρνα, ζεστή παρουσίαση γύρω από την ανακάλυψη, την ατμόσφαιρα και την εύκολη επίσκεψη.</p>
-  </div>
-  <div class="card" id="visit">
-    <h2>Ωράριο</h2>
-    <p>Ανοιχτό καθημερινά · επικοινωνήστε με την ομάδα για τρέχουσες ώρες και κρατήσεις.</p>
-  </div>
-</section>
+  <section id="about" class="grid">
+    <article class="card">
+      <h2>Τοποθεσία</h2>
+      <p>Φιλίκος Εταιρείας 3 / Ρωμανού 4, Θεσσαλονίκη 546 21</p>
+    </article>
+    <article class="card">
+      <h2>Το μέρος</h2>
+      <p>Μοντέρνα, ζεστή παρουσίαση γύρω από την ανακάλυψη, την ατμόσφαιρα και την εύκολη επίσκεψη.</p>
+    </article>
+    <article class="card" id="visit">
+      <h2>Ωράριο</h2>
+      <p>Ανοιχτό καθημερινά · επικοινωνήστε με την ομάδα για τρέχουσες ώρες και κρατήσεις.</p>
+    </article>
+  </section>
 
-<section class="visit-cta" id="visit-cta">
-  <h2>Μια στάση που αξίζει.</h2>
-  <p>Όταν ψάχνεις πού να πας, οι σωστές πληροφορίες κάνουν την απόφαση πιο εύκολη. Δες το σημείο και έλα να το γνωρίσεις.</p>
-  <div>
-    <a href="https://maps.google.com/?cid=8261372492701101228" target="_blank" rel="noopener">Δες τη διαδρομή στο Google Maps</a>
-    <a href="tel:+302310279958">Κάλεσε · 231 027 9958</a>
-  </div>
-</section>
+  <section class="visit-cta" id="visit-cta">
+    <h2>Μια στάση που αξίζει.</h2>
+    <p>Όταν ψάχνεις πού να πας, οι σωστές πληροφορίες κάνουν την απόφαση πιο εύκολη. Δες το σημείο και έλα να το γνωρίσεις.</p>
+    <div class="buttons">
+      <a href="https://maps.google.com/?cid=8261372492701101228" target="_blank" rel="noopener">Δες τη διαδρομή στο Google Maps</a>
+      <a href="tel:+302310279958">Κάλεσε · 231 027 9958</a>
+    </div>
+  </section>
 
-<section id="contact">
-  <h2>Επικοινωνία</h2>
-  <p><strong>Τηλέφωνο:</strong> <a href="tel:+302310279958">+30 231 027 9958</a></p>
-</section>
+  <section id="contact">
+    <h2>Επικοινωνία</h2>
+    <p><strong>Τηλέφωνο:</strong> <a href="tel:+302310279958">+30 231 027 9958</a></p>
+  </section>
+</main>
 
 <footer role="contentinfo">
-  <strong>PALERMO</strong>
+  <div class="logo">PALERMO</div>
   <p>Thessaloniki · 2310 279 958</p>
 </footer>
 
 <script>
-/* smooth scroll for internal links */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    e.preventDefault();
-    const target=document.querySelector(a.getAttribute('href'));
-    if(target){target.scrollIntoView({behavior:'smooth'});}
+document.querySelectorAll('a[href^="#"]').forEach(function(link){
+  link.addEventListener('click',function(e){
+    var target=document.querySelector(this.getAttribute('href'));
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({behavior:'smooth'});
+    }
   });
 });
 </script>
